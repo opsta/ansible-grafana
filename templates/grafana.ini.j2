@@ -4,7 +4,25 @@
 
 [{{ tag }}]
 {% for key, value in configs.items() %}
-{{ key }} = {{ value }}
-{% endfor %}
+
+{# Start IF #}
+{% if value is not mapping %}
+{% if value is sequence and value is not string %}
+{% if value[0] is number %}
+  {{ key | replace('_', '-') }} = [ {{ value|join(', ') }} ]
+{% else %}
+  {{ key | replace('_', '-') }} = [ "{{ value|join('", "') }}" ]
+{% endif %}
+{% else %}
+{% if value == "true" or value == "false" or value is number %}
+  {{ key | replace('_', '-') }} = {{ value | lower }}
+{% else %}
+  {{ key | replace('_', '-') }} = "{{ value }}"
+{% endif %}
+{% endif %}
+{% endif %}
+{# End IF #}
 
 {% endfor %}
+{% endfor %}
+

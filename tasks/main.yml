@@ -8,10 +8,10 @@
 - include_tasks: grafana_pre.yml
 - include_tasks: grafana_install.yml
 
-# - include_tasks: grafana_post.yml
-#   tags:
-#     - grafana-config
-#     - grafana-drop-config
+- include_tasks: grafana_post.yml
+  tags:
+    - grafana-config
+    - grafana-drop-config
 
 # - include_tasks: grafana_database.yml
 #   tags:
