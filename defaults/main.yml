@@ -2,9 +2,9 @@
 grafana_service_name: grafana-server
 
 ## Package variables
-grafana_apt_key_url: https://packagecloud.io/gpg.key
-grafana_apt_key_id: C2E73424D59097AB
-grafana_apt_repo: deb https://packagecloud.io/grafana/stable/debian/ jessie main
+grafana_apt_key_url: https://packages.grafana.com/gpg.key
+grafana_apt_key_id: 24098CB6 
+grafana_apt_repo: deb https://packages.grafana.com/oss/deb stable main
 
 ## General variables
 grafana_user: grafana
@@ -38,10 +38,23 @@ grafana_database_config:
     ## as separate properties or as on string using the url property.
 
     ## Either "mysql", "postgres" or "sqlite3", it's your choice
+    ## "sqlite3" example
     type: sqlite3
+
+    ## "mysql" example
+    # type: mysql
     # host: 127.0.0.1:3306
     # name: grafana
     # user: root
+    # password: password
+
+    ## "postgres" example
+    # type: postgres
+    # host: 127.0.0.1:5432
+    # name: grafana
+    # user: root
+    # password: password
+
     
     ## If the password contains # or ; you have to wrap it with triple quotes. Ex """#password;"""
     # password:
