@@ -20,4 +20,18 @@
     notify:
       - Restart grafana server
 
+  - name: Drop LDAP grafana server configuation
+    template:
+      src: ldap.toml.j2
+      dest: "{{ grafana_ldap_config_filepath }}"
+      owner: "{{ grafana_user }}"
+      group: "{{ grafana_group }}"
+      mode: 0644
+    when: "{{ grafana_config['auth.ldap'].enabled == true }}"
+    notify:
+      - Restart grafana server
+
   - meta: flush_handlers
+
+  tags:
+    - grafana-config

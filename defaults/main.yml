@@ -18,6 +18,7 @@ grafana_dir_default: /etc/default
 grafana_dir_pid: /run/grafana
 grafana_environment_filepath: "{{ grafana_dir_default }}/grafana-server"
 grafana_config_filepath: "{{ grafana_dir_config }}/grafana.ini"
+grafana_ldap_config_filepath: "{{ grafana_dir_config }}/ldap.toml"
 grafana_max_open_files: 10000
 grafana_restart_on_upgrade: true
 
@@ -522,3 +523,33 @@ grafana_config:
 
   external_image_storage.local: {}
     ## does not require any configuration
+
+grafana_ldap_config:
+  server: {}
+    # host: "CHANGEME"
+    # port: 
+    # use_ssl: false
+    # root_ca_cert: "CHANGEME"
+    # client_cert: "CHANGEME"
+    # client_key: "CHANGEME"
+  search_base: {}
+    # bind_dn: "CHANGEME"
+    # bind_password: "CHANGEME"
+    # # User search filter, for example "(cn=%s)" or "(sAMAccountName=%s)" or "(uid=%s)"
+    # search_filter: "CHANGEME"
+    # search_base_dns: ["CHANGEME"]
+    # attributes:
+    #   name: "givenName"
+    #   surname: "sn"
+    #   username: "cn"
+    #   member_of: "memberOf"
+    #   email: "email"
+  group_maps: []
+    # - group_dn:
+    #   org_role:
+    #   grafana_admin: false
+    #   org_id:
+    # - group_dn:
+    #   org_role:
+    #   grafana_admin:
+    #   org_id:
