@@ -11,6 +11,8 @@
     owner: "{{ grafana_user }}"
     group: "{{ grafana_group }}"
   notify: Restart grafana server
+  when:
+    - grafana_datasources|length > 1
   tags:
     - grafana-datasource
 
@@ -26,6 +28,7 @@
     when:
       - grafana_dashboard_check is defined
       - grafana_dashboard_check.stat is defined
+      - grafana_dashboard_check.stat.isdir is defined
       - grafana_dashboard_check.stat.isdir
 
   - name: Drop dashboards provisioning files

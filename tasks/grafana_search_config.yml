@@ -21,6 +21,7 @@
     when:
       - grafana_config_check.results[0] is defined
       - grafana_config_check.results[0].stat is defined
+      - grafana_config_check.results[0].stat.isdir is defined
       - grafana_config_check.results[0].stat.isdir
 
   - name: Check if Grafana dashboard json files exists
