@@ -20,7 +20,7 @@
   - name: Drop dashboards json files
     become: true
     copy:
-      src: "{{ grafana_dashboard_json_path }}"
+      src: "{{ grafana_dashboard_json_path }}/"
       dest: "{{ grafana_dir_data }}/dashboards"
       owner: "{{ grafana_user }}"
       group: "{{ grafana_group }}"
