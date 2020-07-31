@@ -12,7 +12,7 @@
     group: "{{ grafana_group }}"
   notify: Restart grafana server
   when:
-    - grafana_datasources|length > 1
+    - grafana_datasources|length > 0
   tags:
     - grafana-datasource
 
