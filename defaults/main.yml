@@ -3,7 +3,7 @@ grafana_service_name: grafana-server
 
 ## Package variables
 grafana_apt_key_url: https://packages.grafana.com/gpg.key
-grafana_apt_key_id: 24098CB6 
+grafana_apt_key_id: 24098CB6
 grafana_apt_repo: deb https://packages.grafana.com/oss/deb stable main
 
 ## General variables
@@ -21,6 +21,14 @@ grafana_config_filepath: "{{ grafana_dir_config }}/grafana.ini"
 grafana_ldap_config_filepath: "{{ grafana_dir_config }}/ldap.toml"
 grafana_max_open_files: 10000
 grafana_restart_on_upgrade: true
+
+## Search configuration files variables
+grafana_search_config_path: "{{ playbook_dir }}/files/groups/{{ item }}/grafana"
+grafana_search_config_paths: []
+grafana_dashboard_json_path: "{{ grafana_host_config_path | default(inventory_hostname)}}/dashboards"
+
+## Trigger variables
+grafana_enable_provisioning: false
 
 ## MySQL credential
 ## If database have not privileges, empty dict
@@ -56,7 +64,7 @@ grafana_database_config:
     # user: root
     # password: password
 
-    
+
     ## If the password contains # or ; you have to wrap it with triple quotes. Ex """#password;"""
     # password:
 
@@ -110,7 +118,7 @@ grafana_config:
     ## Protocol (http, https, socket)
     protocol: http
     ## The ip address to bind to, empty will bind to all interfaces
-    # http_addr: 
+    # http_addr:
     ## The http port  to use
     http_port: 3000
     ## The public facing domain name used to access grafana from a browser
@@ -127,8 +135,8 @@ grafana_config:
     ## enable gzip
     enable_gzip: false
     ## https certs & key file
-    # cert_file: 
-    # cert_key: 
+    # cert_file:
+    # cert_key:
     ## Unix socket path
     socket: /tmp/grafana.sock
 
@@ -148,9 +156,9 @@ grafana_config:
     ##         `user:password@tcp(127.0.0.1:3306)/database_name`
     ##         `user:password@unix(/var/run/mysqld/mysqld.sock)/database_name`
     # memcache: 127.0.0.1:11211
-    
+
     provider_config: sessions
-    
+
     ## Session cookie name
     cookie_name: grafana_sess
 
@@ -261,7 +269,7 @@ grafana_config:
 
     ## Set to true to disable the signout link in the side menu. useful if you use auth.proxy
     disable_signout_menu: false
-  
+
   auth.anonymous:
     ## enable anonymous access
     enabled: false
@@ -271,7 +279,7 @@ grafana_config:
 
     ## specify role for unauthenticated users
     org_role: Viewer
-  
+
   auth.github: {}
     # enabled: false
     # allow_sign_up: true
@@ -283,7 +291,7 @@ grafana_config:
     # api_url: https://api.github.com/user
     # team_ids:
     # allowed_organizations:
-  
+
   auth.google: {}
     # enabled: false
     # allow_sign_up: true
@@ -295,7 +303,7 @@ grafana_config:
     # api_url: https://www.googleapis.com/oauth2/v1/userinfo
     # allowed_domains:
     # hosted_domain:
-  
+
   auth.grafananet: {}
     # enabled: false
     # allow_sign_up: true
@@ -335,12 +343,12 @@ grafana_config:
     # auto_sign_up: true
     # ldap_sync_ttl: 60
     # whitelist:
-  
-  auth.ldap: {}
-    # enabled: false
+
+  auth.ldap:
+    enabled: false
     # config_file: /etc/grafana/ldap.toml
     # allow_sign_up: true
-  
+
   smtp: {}
     # enabled: false
     # host: localhost:25
@@ -527,7 +535,7 @@ grafana_config:
 grafana_ldap_config:
   server: {}
     # host: "CHANGEME"
-    # port: 
+    # port:
     # use_ssl: false
     # root_ca_cert: "CHANGEME"
     # client_cert: "CHANGEME"
@@ -553,3 +561,17 @@ grafana_ldap_config:
     #   org_role:
     #   grafana_admin:
     #   org_id:
+
+grafana_datasources: []
+#  - name: "Prometheus"
+#    type: "prometheus"
+#    access: "proxy"
+#    url: "http://localhost:9090/prometheus"
+#    basicAuth: false
+#    basicAuthUser: "admin"
+#    basicAuthPassword: "password"
+#    isDefault: true
+#    jsonData:
+#      tlsAuth: false
+#      tlsAuthWithCACert: false
+#      tlsSkipVerify: false

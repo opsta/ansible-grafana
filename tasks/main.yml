@@ -5,13 +5,20 @@
     - "{{ ansible_os_family }}.yml"
     - default.yml
 
+- include_tasks: grafana_search_config.yml
+  tags:
+    - grafana-dashboard
+
 - include_tasks: grafana_pre.yml
 - include_tasks: grafana_install.yml
-
-- include_tasks: grafana_post.yml
   tags:
     - grafana-config
-    - grafana-drop-config
+
+- include_tasks: grafana_provisioning.yml
+  when: grafana_enable_provisioning
+  tags:
+    - grafana-datasource
+    - grafana-dashboard
 
 # - include_tasks: grafana_database.yml
 #   tags:

@@ -1,10 +1,8 @@
 # {{ ansible_managed }}
-
 {% for tag, configs in grafana_config.items() %}
 
 [{{ tag }}]
 {% for key, value in configs.items() %}
-
 {# Start IF #}
 {% if value is not mapping %}
 {% if value is sequence and value is not string %}
@@ -23,6 +21,5 @@
 {% endif %}
 {# End IF #}
 
-{% endfor %}
-{% endfor %}
-
+{%- endfor %}
+{%- endfor %}
