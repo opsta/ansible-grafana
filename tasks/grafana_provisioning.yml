@@ -1,15 +1,11 @@
 ---
 - name: Drop datasources provisioning file
-  become: true
-  copy:
+  template:
+    src: datasources-ansible.yml.j2
     dest: "{{ grafana_dir_home }}/{{ grafana_config.paths.provisioning }}/datasources/ansible.yml"
-    content: |
-      apiVersion: 1
-      deleteDatasources: []
-      datasources:
-      {{ grafana_datasources | to_nice_yaml }}
     owner: "{{ grafana_user }}"
     group: "{{ grafana_group }}"
+    mode: 0644
   notify: Restart grafana server
   when:
     - grafana_datasources|length > 0
@@ -18,7 +14,6 @@
 
 - block: # Drop dashboard files
   - name: Drop dashboards json files
-    become: true
     copy:
       src: "{{ grafana_dashboard_json_path }}/"
       dest: "{{ grafana_dir_data }}/dashboards"
@@ -32,23 +27,15 @@
       - grafana_dashboard_check.stat.isdir
 
   - name: Drop dashboards provisioning files
-    become: true
-    copy:
+    template:
+      src: dashboards-ansible.yml.j2
       dest: "{{ grafana_dir_home }}/{{ grafana_config.paths.provisioning }}/dashboards/ansible.yml"
-      content: |
-        apiVersion: 1
-        providers:
-          - name: 'default'
-            orgId: 1
-            folder: ''
-            type: file
-            options:
-              path: "{{ grafana_dir_data }}/dashboards"
-      backup: false
       owner: "{{ grafana_user }}"
       group: "{{ grafana_group }}"
-      mode: 0640
+      mode: 0644
     notify: Restart grafana server
+    when:
+      - grafana_dashboard_providers|length > 0
 
   - meta: flush_handlers
 
