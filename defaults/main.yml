@@ -571,10 +571,36 @@ grafana_ldap_config:
     #   grafana_admin:
     #   org_id:
 
+## Define dashboard providers field in provisioning file
+## Use the same format as in Grafana document
+## Reference: https://grafana.com/docs/grafana/latest/administration/provisioning/#dashboards
+grafana_dashboard_providers: []
+  # - name: 'default'
+  #   orgId: 1
+  #   folder: 'General'
+  #   type: file
+  #   disableDeletion: false
+  #   updateIntervalSeconds: 10
+  #   allowUiUpdates: false
+  #   options:
+  #     path: "{{ grafana_dir }}/dashboards"
+  #     foldersFromFilesStructure: true
+
+## Define deleteDatasources field in provisioning file
+## Use the same format as in Grafana document
+## Reference: https://grafana.com/docs/grafana/latest/administration/provisioning/#example-data-source-config-file
+grafana_delete_datasources: []
+#   - name: Prometheus
+#     orgId: 1
+
+## Define datasources field in provisioning file
+## Use the same format as in Grafana document
+## Reference: https://grafana.com/docs/grafana/latest/administration/provisioning/#example-data-source-config-file
 grafana_datasources: []
 #  - name: "Prometheus"
 #    type: "prometheus"
 #    access: "proxy"
+#    orgId: 1
 #    url: "http://localhost:9090/prometheus"
 #    basicAuth: false
 #    basicAuthUser: "admin"
