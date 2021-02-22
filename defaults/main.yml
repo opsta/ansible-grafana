@@ -1,10 +1,19 @@
 ---
 grafana_service_name: grafana-server
+grafana_version: latest
 
 ## Package variables
 grafana_apt_key_url: https://packages.grafana.com/gpg.key
 grafana_apt_key_id: 24098CB6
 grafana_apt_repo: deb https://packages.grafana.com/oss/deb stable main
+
+## RPM Repository
+grafana_yum_repo_template: grafana.repo.j2
+
+## Additional Grafana Plugins
+grafana_plugins: []
+  # - btplc-status-dot-panel 
+  # - grafana-image-renderer
 
 ## General variables
 grafana_user: grafana
@@ -562,36 +571,10 @@ grafana_ldap_config:
     #   grafana_admin:
     #   org_id:
 
-## Define dashboard providers field in provisioning file
-## Use the same format as in Grafana document
-## Reference: https://grafana.com/docs/grafana/latest/administration/provisioning/#dashboards
-grafana_dashboard_providers: []
-  # - name: 'default'
-  #   orgId: 1
-  #   folder: 'General'
-  #   type: file
-  #   disableDeletion: false
-  #   updateIntervalSeconds: 10
-  #   allowUiUpdates: false
-  #   options:
-  #     path: "{{ grafana_dir }}/dashboards"
-  #     foldersFromFilesStructure: true
-
-## Define deleteDatasources field in provisioning file
-## Use the same format as in Grafana document
-## Reference: https://grafana.com/docs/grafana/latest/administration/provisioning/#example-data-source-config-file
-grafana_delete_datasources: []
-#   - name: Prometheus
-#     orgId: 1
-
-## Define datasources field in provisioning file
-## Use the same format as in Grafana document
-## Reference: https://grafana.com/docs/grafana/latest/administration/provisioning/#example-data-source-config-file
 grafana_datasources: []
 #  - name: "Prometheus"
 #    type: "prometheus"
 #    access: "proxy"
-#    orgId: 1
 #    url: "http://localhost:9090/prometheus"
 #    basicAuth: false
 #    basicAuthUser: "admin"
