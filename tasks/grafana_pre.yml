@@ -9,17 +9,6 @@
     apt_repository:
       repo: "{{ grafana_apt_repo }}"
   when: ansible_pkg_mgr == "apt"
-
-- name: Ensure directory exist
-  file:
-    path: "{{ item }}"
-    state: directory
-    owner: "{{ grafana_user }}"
-    group: "{{ grafana_group }}"
-  with_items:
-    - "{{ grafana_dir_config }}"
-    - "{{ grafana_dir_data }}"
-    - "{{ grafana_dir_log }}"
   
 - block:
   - name: Add Grafana repository file from template [RHEL/CentOS]
