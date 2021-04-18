@@ -10,6 +10,17 @@
     notify:
       - Restart grafana server
 
+  - name: Ensure directory exist
+    file:
+      path: "{{ item }}"
+      state: directory
+      owner: "{{ grafana_user }}"
+      group: "{{ grafana_group }}"
+    with_items:
+      - "{{ grafana_dir_config }}"
+      - "{{ grafana_dir_data }}"
+      - "{{ grafana_dir_log }}"
+
   - name: Drop grafana ini configuration
     template:
       src: grafana.ini.j2
@@ -30,6 +41,26 @@
     when: "{{ grafana_config['auth.ldap'].enabled == true }}"
     notify:
       - Restart grafana server
+
+
+  # - name: Copy grafana plugins from local
+  #   copy:
+  #     src: "{{ playbook_dir }}/files/groups/grafana/grafana/plugins/"
+  #     dest: "{{ grafana_dir_plugins }}"
+  #   notify: 
+  #   - Restart grafana server
+
+  # - name: Install grafana plugins
+  #   grafana_plugin:
+  #     name: "{{ item }}"
+  #     version: latest
+  #     state: present
+  #   with_items:
+  #     - "{{ grafana_plugins }}"
+  #   when:
+  #   - grafana_plugins|length > 0
+  #   notify: 
+  #     - Restart grafana server
 
   - meta: flush_handlers
 

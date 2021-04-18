@@ -7,14 +7,38 @@
   with_items:
     - "{{ grafana_apt_package }}"
     - "{{ grafana_apt_dependencies }}"
+  when:
+    - ansible_pkg_mgr == "apt"
+
+- block: 
+  - name: Install yum dependencies
+    package:
+      name: "{{ grafana_yum_dependencies }}"
+      state: present
+    register: _install_dep_packages
+    until: _install_dep_packages is succeeded
+    
+  - name: Import Grafana GPG key
+    command: rpm --import /etc/pki/rpm-gpg/{{ grafana_gpg_key }}
+
+  - name: Install Grafana [RHEL/CentOS]
+    package:
+      name: "{{ grafana_yum_package }}"
+      state: "{{ (grafana_version == 'latest') | ternary('latest', 'present') }}"
+    register: _install_packages
+    until: _install_packages is succeeded
+    notify: Restart grafana server
+  when: 
+    - ansible_pkg_mgr in ['yum', 'dnf']
+    - grafana_custom_repo
 
 - include_tasks: grafana_config.yml
   tags:
     - grafana-config
-
+    
 - name: Ensure {{ grafana_service_name }} service started and start up at boot
-  service:
+  systemd:
     name: "{{ grafana_service_name }}"
     state: started
-    enabled: yes
+    enabled: true
     daemon_reload: yes

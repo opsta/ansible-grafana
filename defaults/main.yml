@@ -1,5 +1,6 @@
 ---
 grafana_service_name: grafana-server
+grafana_version: latest
 
 ## Package variables
 grafana_apt_key_url: https://packages.grafana.com/gpg.key
@@ -29,6 +30,13 @@ grafana_dashboard_json_path: "{{ grafana_host_config_path | default(inventory_ho
 
 ## Trigger variables
 grafana_enable_provisioning: false
+
+## For Centos/RHEL custom repo
+grafana_custom_repo: false
+grafana_gpg_key_path: "{{ playbook_dir }}/files/groups/grafana/grafana/key"
+grafana_gpg_key: GRAFANA-GPG
+grafana_yum_repo_template: grafana.repo.j2
+grafana_baseurl: https://packages.grafana.com/oss/rpm
 
 ## MySQL credential
 ## If database have not privileges, empty dict

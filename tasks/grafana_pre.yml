@@ -1,9 +1,38 @@
 ---
-- name: Add grafana repository key
-  apt_key:
-    url: "{{ grafana_apt_key_url }}"
-    id: "{{ grafana_apt_key_id }}"
+- block:
+  - name: Add grafana repository key
+    apt_key:
+      url: "{{ grafana_apt_key_url }}"
+      id: "{{ grafana_apt_key_id }}"
 
-- name: Add grafana apt-repository
-  apt_repository:
-    repo: "{{ grafana_apt_repo }}"
+  - name: Add grafana apt-repository
+    apt_repository:
+      repo: "{{ grafana_apt_repo }}"
+  when: ansible_pkg_mgr == "apt"
+
+- name: Ensure directory exist
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ grafana_user }}"
+    group: "{{ grafana_group }}"
+  with_items:
+    - "{{ grafana_dir_config }}"
+    - "{{ grafana_dir_data }}"
+    - "{{ grafana_dir_log }}"
+  
+- block:
+  - name: Add Grafana repository file from template [RHEL/CentOS]
+    template:
+      src: "{{ grafana_yum_repo_template }}"
+      dest: "/etc/yum.repos.d/{{ grafana_yum_repo_template | basename | regex_replace('\\.j2$', '') }}"
+      force: true
+      backup: true
+    when: ansible_pkg_mgr in ['yum', 'dnf']
+
+  - name: Copy Grafana GPG key
+    copy:
+      src: "{{ grafana_gpg_key_path }}/{{ grafana_gpg_key }}"
+      dest: /etc/pki/rpm-gpg/
+    when: ansible_pkg_mgr in ['yum', 'dnf']
+  when: grafana_custom_repo
