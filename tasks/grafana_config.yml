@@ -42,25 +42,26 @@
     notify:
       - Restart grafana server
 
+  - name: Copy grafana plugins from local
+    copy:
+      src: "{{ grafana_plugin_path }}"
+      dest: "{{ grafana_dir_plugins }}"
+    when: 
+      - grafana_plugin_check is defined
+    notify: 
+    - Restart grafana server
 
-  # - name: Copy grafana plugins from local
-  #   copy:
-  #     src: "{{ playbook_dir }}/files/groups/grafana/grafana/plugins/"
-  #     dest: "{{ grafana_dir_plugins }}"
-  #   notify: 
-  #   - Restart grafana server
-
-  # - name: Install grafana plugins
-  #   grafana_plugin:
-  #     name: "{{ item }}"
-  #     version: latest
-  #     state: present
-  #   with_items:
-  #     - "{{ grafana_plugins }}"
-  #   when:
-  #   - grafana_plugins|length > 0
-  #   notify: 
-  #     - Restart grafana server
+  - name: Install grafana plugins
+    grafana_plugin:
+      name: "{{ item }}"
+      version: latest
+      state: present
+    with_items:
+      - "{{ grafana_plugins }}"
+    when:
+    - grafana_plugins|length > 0
+    notify: 
+      - Restart grafana server
 
   - meta: flush_handlers
 

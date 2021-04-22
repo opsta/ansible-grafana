@@ -17,11 +17,11 @@
       dest: "/etc/yum.repos.d/{{ grafana_yum_repo_template | basename | regex_replace('\\.j2$', '') }}"
       force: true
       backup: true
-    when: ansible_pkg_mgr in ['yum', 'dnf']
 
   - name: Copy Grafana GPG key
-    copy:
-      src: "{{ grafana_gpg_key_path }}/{{ grafana_gpg_key }}"
+    template:
+      src: "{{ grafana_gpg_key }}"
       dest: /etc/pki/rpm-gpg/
-    when: ansible_pkg_mgr in ['yum', 'dnf']
-  when: grafana_custom_repo
+  when:
+    - ansible_pkg_mgr in ['yum', 'dnf'] 
+    - grafana_custom_repo

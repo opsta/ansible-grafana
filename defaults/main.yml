@@ -27,13 +27,16 @@ grafana_restart_on_upgrade: true
 grafana_search_config_path: "{{ playbook_dir }}/files/groups/{{ item }}/grafana"
 grafana_search_config_paths: []
 grafana_dashboard_json_path: "{{ grafana_host_config_path | default(inventory_hostname)}}/dashboards"
-
+grafana_plugin_path: "{{ grafana_host_config_path | default(inventory_hostname)}}/plugins"
 ## Trigger variables
 grafana_enable_provisioning: false
 
+## Additional Grafana plugins
+grafana_plugins: []
+  # - btplc-status-dot-panel 
+
 ## For Centos/RHEL custom repo
 grafana_custom_repo: false
-grafana_gpg_key_path: "{{ playbook_dir }}/files/groups/grafana/grafana/key"
 grafana_gpg_key: GRAFANA-GPG
 grafana_yum_repo_template: grafana.repo.j2
 grafana_baseurl: https://packages.grafana.com/oss/rpm
