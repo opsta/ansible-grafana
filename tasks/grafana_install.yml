@@ -35,7 +35,7 @@
 - include_tasks: grafana_config.yml
   tags:
     - grafana-config
-    
+
 - name: Ensure {{ grafana_service_name }} service started and start up at boot
   systemd:
     name: "{{ grafana_service_name }}"
