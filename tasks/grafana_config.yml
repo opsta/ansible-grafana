@@ -47,7 +47,7 @@
       src: "{{ grafana_plugin_path }}"
       dest: "{{ grafana_dir_plugins }}"
     when: 
-      - grafana_plugin_check is defined
+      - grafana_plugin_check.stat.exists
     notify: 
     - Restart grafana server
 
