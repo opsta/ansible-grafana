@@ -32,3 +32,10 @@
     register: grafana_dashboard_check
   tags:
     - grafana-dashboard
+
+  - name: Check if Grafana plugins files exists
+    stat:
+      path: "{{ grafana_plugin_path }}"
+    become: false
+    delegate_to: 127.0.0.1
+    register: grafana_plugin_check  
